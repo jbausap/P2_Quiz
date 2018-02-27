@@ -180,7 +180,7 @@ if ( typeof id === "undefined") {
 
 exports.creditsCmd = rl => {
 	log('Autor de la práctica:');
-	log('	Juan Adolfo Bausa Pérez');
+	log('JUAN ADOLFO BAUSA PEREZ');
 	rl.prompt();
 };
 
