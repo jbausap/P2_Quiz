@@ -179,8 +179,8 @@ if ( typeof id === "undefined") {
 
 
 exports.creditsCmd = rl => {
-	log('Autor de la práctica:');
 	log('JUAN');
+
 	rl.prompt();
 };
 
