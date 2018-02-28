@@ -12,16 +12,16 @@ const readline = require('readline');
 
 exports.helpCmd = rl => {
 	log( "Comandos:");
-	log( "	h | help - Muestra esta ayuda.");
+	log( "	h|help - Muestra esta ayuda.");
 	log( "	list - Listar los quizes existentes.");
 	log( "	show <id> - Muestra la pregunta y la respuesta del quiz indicado");
 	log( "	add - Añadir un nuevo quiz interactivamente.");
 	log( "	delete <id> - Borra el quiz indicado.");
 	log( "	edit <id> - Editar el quiz indicado.");
 	log( "	test <id> - Probar el quiz indicado.");
-	log( "	p | play - Jugar a preguntar aleatoriamente todos los quizzes.");
+	log( "	p|play - Jugar a preguntar aleatoriamente todos los quizzes.");
 	log( "	credits - Créditos.");
-	log( "	q | quit - Salir del programa.");
+	log( "	q|quit - Salir del programa.");
 	rl.prompt();
 };
 
@@ -112,22 +112,24 @@ exports.playCmd = rl => {
 
 	const playOne= () =>{
 		if(typeof toBeResolved[0]==="undefined"){
-			console.log(`No hay quizzes.`);
+			log(`No hay nada más que preguntar.`);
+			log(`Fin del juego. Aciertos: ${score}`);
+			biglog(`${score}` , 'pink');
 			rl.prompt();
 		} else {
 			const id = toBeResolved.pop();
 			let quiz = model.getByIndex(id);
-			log(` La pregunta es: ${quiz.question}`);
-			rl.question(colorear(' Introduzca una respuesta: ', 'blue'), ans => {
+			log();
+			rl.question(colorear(` ${quiz.question}? `, 'red'), ans => {
 
-					if( ans === quiz.answer) {
+					if( (ans.toLowerCase().trim()) === (quiz.answer.toLowerCase().trim())) {
 					score++;
-					biglog(` Correcto`, 'green')
-					log(` Su puntuación es: ${colorear(score,'blue')}`);
+					log(` CORRECTO - Lleva ${score} aciertos`);
 					playOne();
 				} else {
-					biglog(` Incorrecto`, 'red');
-					log(` El quiz ha terminado. Su puntuación es: ${colorear(score,'blue')}`);
+					log(` INCORRECTO`);
+					log(` Fin del juego. Aciertos: ${score}`);
+
 					rl.prompt();
 				}
 			});
@@ -150,14 +152,16 @@ if ( typeof id === "undefined") {
 	} else {
 		try{
 			const quiz = model.getByIndex(id);
-			log(` La pregunta del quiz ${colorear(id,'magenta')} es: ${quiz.question}`);
-			rl.question(colorear(' Introduzca una respuesta: ', 'blue'), ans => {
 
-					if( ans === quiz.answer) {
-					biglog(' Correcto ', 'green')
+			rl.question(colorear(`  ${quiz.question}? `, 'red'), ans => {
+
+					if( (ans.toLowerCase().trim()) === (quiz.answer.toLowerCase().trim())) {
+					console.log(`Su respuesta es correcta.`)
+					biglog(' Correcta ', 'green')
 					rl.prompt();
 				} else {
-					biglog(' Incorrecto', 'red'),
+					console.log(`Su respuesta es incorrecta.`)
+					biglog(' Incorrecta', 'red'),
 					rl.prompt();
 				}
 			});
@@ -179,8 +183,8 @@ if ( typeof id === "undefined") {
 
 
 exports.creditsCmd = rl => {
-	log('JUAN');
-
+	log('Autor de la práctica:');
+	log('Juan Adolfo Bausa Pérez', 'green');
 	rl.prompt();
 };
 
